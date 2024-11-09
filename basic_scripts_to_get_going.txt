@@ -1,0 +1,68 @@
+Kafka başlatılması için zookeeper başlatılmalı. Kafkanın runladığı ecosystem gibi düşünülebilir.
+
+1) Docker-compose.yaml file execute etmek için
+
+docker compose -f docker-compose.yaml up -d
+
+kullanılmalı.
+
+2) Docker ps command kullanılarak containerid öğrenildikten sonra
+
+docker exec -it containerid /bin/sh yada /bin/bash duruma göre docker içerisinde oluşturduğumuz container a girebiliriz.
+
+Daha sonra
+
+3) /opt/kafka_2.13-2.8.1/bin içerisinde şu command execute edilerek topic oluşturulabilir:
+
+kafka-topics.sh --bootstrap-server localhost:9092 --create --topic NewTopic --partitions 3 --replication-factor 1
+
+NewTopic adlı topic oluşturduk.
+
+Bunu offset explorer dan görebiliriz.
+
+Cluster eklemek için
+
+cluster name kendin yaz. 
+
+Bootstrap Server eklemek için
+
+broker1.example.com:9092,broker2.example.com:9092,broker3.example.com:9092 birden fazla broker eklenebilir.
+
+sadece bir tane ekledik o da localhost:9092
+
+Host olarak
+
+localhost yazdık local olarak runlandığı için.
+
+
+4) Aktif topic listesi için
+
+kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+
+5) Describe topics
+
+kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic NewTopic
+
+
+6) Producer olarak topice veri yazmak için şu script kullanılabilir.(Basic syntax böyledir.)
+
+kafka-console-producer.sh --boostrap-server localhost:9092 --topic NewTopic
+
+7) Consumer olarak yazılan verileri görüntülemek için basic syntax aşağıdaki gibidir.
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic NewTopic --from-beginning
+
+8) Topic kullanım sonrası silinmesi için alttaki gibi bir basic script kullanılabilir
+
+kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic (topicnameinsert)
+
+9) Eğer kafka verilerinin periyodik şekilde belirli bir zaman aralığı sonrasında silinmesini istiyorsak alttaki kullanılabilir
+
+kafka-configs.sh --bootstrap-server localhost:2181 --entity-type topics --entity-name (topicnameinsert) --alter --add-config retention.ms=86400000
+
+(retention.ms = 24(saat) * 60(dakika) * 60(saniye) * 1000(ms) = 86400000)
+
+(24 saatte bir veri girdileri boşaltılır ayarı set edilebilir.)
+
+(topicnameinsert)
