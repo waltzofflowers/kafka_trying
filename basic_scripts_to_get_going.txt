@@ -59,7 +59,7 @@ kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic (topicnameins
 
 9) Eğer kafka verilerinin periyodik şekilde belirli bir zaman aralığı sonrasında silinmesini istiyorsak alttaki kullanılabilir
 
-kafka-configs.sh --bootstrap-server localhost:2181 --entity-type topics --entity-name (topicnameinsert) --alter --add-config retention.ms=86400000
+kafka-configs.sh --bootstrap-server localhost:2181 --entity-type topics --entity-name (topicnameinsert) --alter --add-config retention.ms=86400000(1 gün milisaniye yada hesapla)
 
 (retention.ms = 24(saat) * 60(dakika) * 60(saniye) * 1000(ms) = 86400000)
 
